@@ -1,19 +1,17 @@
 server:
   port: 8082
   
-
-
- 
+  
 spring:
   cloud:
     gateway:
       routes:
       - id: USER-SERVICE
-        uri: http://localhost:9090/
+        uri: http://user-container:9090/
         predicates:
         - Path=/service/**
       - id: AUTH-SERVICE
-        uri: http://localhost:9999/
+        uri: http://login-container:9999/
         predicates:
         - Path=/authenticate/**  
       default-filters:
@@ -23,8 +21,11 @@ spring:
           '[/**]':
               allowedOrigins: "*"
               allowedMethods: "*"
-              allowedHeaders: "*"    application:    name: gateway-service
+              allowedHeaders: "*"  application:    name: GATEWAY-SERVICE  
 eureka:
   client:
+    register-with-eureka: true
+    fetch-registry: true
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://server-container:8761/eureka/
+            
